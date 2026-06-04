@@ -1,3 +1,5 @@
+import pandas as pd
+
 class UnionFind:
     def __init__(self, nodes):
         self.parent = {node: node for node in nodes}
@@ -61,8 +63,9 @@ def identify_clusters(nodes, mst_edges):
             clusters.append(component)
     return clusters
 
-nodes_list = ['a', 'b', 'c', 'd', 'e', 'f']
-edges_list = [('a', 'b', 1), ('b', 'c', 2), ('c', 'd', 6), ('d', 'e', 3), ('e', 'f', 1), ('a', 'c', 4)]
+df = pd.read_csv('main.csv')
+edges_list = list(df.itertuples(index=False, name=None))
+nodes_list = list(set([u for u, _, _ in edges_list] + [v for _, v, _ in edges_list]))
 
 mst = get_mst(nodes_list, edges_list)
 result_clusters = identify_clusters(nodes_list, mst)
