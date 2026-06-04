@@ -1,14 +1,12 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
-df = pd.read_csv('daily_food_delivery_orders.csv')
-df['target'] = df['order_status'].apply(lambda x: 1 if x == 'Delivered' else 0)
+df = pd.read_csv('main.csv')
 
-X = df[['delivery_distance_km', 'delivery_partner_rating']].values
-y = df['target'].values
+X = df.iloc[:, :-1].values
+y_raw = df.iloc[:, -1].values
+y = np.where(y_raw == y_raw[0], 1, 0)
 
-# Normalize & Add Intercept
 X = (X - np.mean(X, axis=0)) / np.std(X, axis=0)
 X = np.hstack([np.ones((X.shape[0], 1)), X])
 
