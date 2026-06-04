@@ -6,13 +6,13 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-dataset = pd.read_csv('mushroom.csv')
+dataset = pd.read_csv('main.csv')
 le = LabelEncoder()
 for column in dataset.columns:
     dataset[column] = le.fit_transform(dataset[column])
 
-X = dataset.drop('class', axis=1).values
-y = dataset['class'].values
+X = dataset.iloc[:, :-1].values
+y = dataset.iloc[:, -1].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
 
